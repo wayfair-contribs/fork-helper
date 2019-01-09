@@ -92,7 +92,7 @@ class ForkTest extends TestCase
         $this->getSimpleAdapter();
 
         $tmp = tempnam(sys_get_temp_dir(), "phpunit-fork-helper-");
-        $this->assertInternalType("string", $tmp);
+        $this->assertIsString($tmp);
 
         $this->fork->call(function ($tmp) {
             file_put_contents($tmp, "success!");
