@@ -39,6 +39,10 @@ class ForkTest extends TestCase
                 $func(...$args);
                 return rand(1, 999);
             }
+            public function isRunning(int $pid): bool
+            {
+                return false;
+            }
             public function wait(int $pid): int
             {
                 return 0;
