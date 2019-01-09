@@ -114,6 +114,42 @@ class ForkTest extends TestCase
     }
 
 
+    public function testIsRunning1()
+    {
+        $adapter = $this->getMockAdapter();
+
+        $adapter->shouldReceive("call")->once()->with("sleep")->andReturn(123);
+        $this->fork->call("sleep");
+
+        $adapter->shouldReceive("isRunning")->once()->with(123)->andReturn(true);
+        $this->assertTrue($this->fork->isRunning(123));
+
+        $this->assertSame([123], $this->fork->getPIDs());
+    }
+
+
+    public function testIsRunning2()
+    {
+        $adapter = $this->getMockAdapter();
+
+        $adapter->shouldReceive("call")->once()->with("sleep")->andReturn(123);
+        $this->fork->call("sleep");
+
+        $adapter->shouldReceive("isRunning")->once()->with(123)->andReturn(false);
+        $this->assertFalse($this->fork->isRunning(123));
+
+        $this->assertSame([], $this->fork->getPIDs());
+    }
+
+
+    public function testIsRunning3()
+    {
+        $this->getMockAdapter();
+
+        $this->assertFalse($this->fork->isRunning(123));
+    }
+
+
     public function testGetPIDs()
     {
         $this->getSimpleAdapter();
